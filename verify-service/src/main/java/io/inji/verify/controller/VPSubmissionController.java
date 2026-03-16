@@ -46,6 +46,11 @@ public class VPSubmissionController {
             @RequestParam(value = "error", required = false) String error,
             @RequestParam(value = "error_description", required = false) String errorDescription) {
         // --- 1. Initial response validation ---
+        log.info("vp_token : "+vpToken);
+        log.info("presentation_submission : "+presentationSubmission);
+        log.info("state : "+state);
+        log.info("error : "+error);
+        log.info("error_description : "+errorDescription);
         if (!isValidResponse(vpToken, error, presentationSubmission)) {
             String invalidResponseMessage = "Invalid response: either vp_token and presentation_submission must be provided, or error must be provided.";
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)

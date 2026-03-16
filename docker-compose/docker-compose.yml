@@ -3,7 +3,7 @@ version: '3.8'
 services:
   verify-service:
     container_name: verify-service
-    image: mosipid/inji-verify-service:0.15.2
+    image: verify-service-age-verification:0.1
     user: root
     ports:
       - "8080:8080"
@@ -16,10 +16,12 @@ services:
       - DATABASE_USERNAME=postgres
       - DATABASE_PASSWORD=postgres
       - INJI_VP_REQUEST_LONG_POLLING_TIMEOUT=55000
-      - INJI_VP_SUBMISSION_BASE_URL=https://VERIFY_SERVICE_PROXY_FOR_LOCALHOST/v1/verify
-      - INJI_DID_VERIFY_URI=did:web:VERIFY_SERVICE_PROXY_FOR_LOCALHOST:v1:verify
-      - INJI_DID_VERIFY_PUBLIC_KEY_URI=did:web:VERIFY_SERVICE_PROXY_FOR_LOCALHOST:verify#key-0
+      - INJI_VP_SUBMISSION_BASE_URL=https://verify.kunalash.com/v1/verify
+      - INJI_DID_VERIFY_URI=did:web:raw.githubusercontent.com:kunalash1:DID:refs:heads:main:verify
+      - INJI_DID_VERIFY_PUBLIC_KEY_URI=did:web:raw.githubusercontent.com:kunalash1:DID:refs:heads:main:verify#key-0
       - INJI_KEYSTORE_FILE_PASS=mosip
+    volumes:
+      - ./certs/Zscaler Root CA.crt:/home/mosip/certs/Zscaler Root CA.crt
     depends_on:
       - postgres
 
@@ -36,7 +38,7 @@ services:
       - OVP_QR_HEADER={OVP_QR_HEADER-INJI_OVP://payload=}
       - VERIFIABLE_CLAIMS_CONFIG_URL=/assets/config.json
       - CLIENT_ID=inji-verify-ui
-      - CLIENT_ID_DID=did:web:VERIFY_SERVICE_PROXY_FOR_LOCALHOST:v1:verify
+      - CLIENT_ID_DID=did:web:raw.githubusercontent.com:kunalash1:DID:refs:heads:main:verify
       - DISPLAY_TIMEOUT=120000
     volumes:
       - ./config/config.json:/usr/share/nginx/html/assets/config.json
